@@ -67,6 +67,8 @@ public class CheckoutSteps {
     public void iClickTheButton(String buttonText) {
         if (buttonText.equals("Continue Shopping")) {
             cartPage.continueShopping();
+        } else if (buttonText.equals("Back Home")) {
+            checkoutCompletePage.clickBackHome();
         }
     }
 
@@ -232,13 +234,6 @@ public class CheckoutSteps {
         checkoutOverviewPage.clickFinish();
     }
 
-    @When("I click the {string} button")
-    @Step("Click {0} button")
-    public void iClickTheBackHomeButton(String buttonText) {
-        if (buttonText.equals("Back Home")) {
-            checkoutCompletePage.clickBackHome();
-        }
-    }
 
     @And("the cart should be empty")
     @Step("Verify cart is empty")

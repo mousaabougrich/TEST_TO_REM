@@ -1,8 +1,8 @@
 package com.saucedemo.factory;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import com.saucedemo.utils.ConfigReader;
@@ -15,17 +15,16 @@ public class DriverFactory {
         String browser = ConfigReader.get("browser").toLowerCase();
 
         switch (browser) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+            case "chrome":                ChromeOptions chromeOptions = new ChromeOptions();
+                if (Boolean.parseBoolean(System.getProperty("headless", "true"))) {
+                    chromeOptions.addArguments("--headless=new");
+                }
+                chromeOptions.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--window-size=1920,1080");
+                driver = new ChromeDriver(chromeOptions);
                 break;
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
+            case "firefox":                driver = new FirefoxDriver();
                 break;
-            case "edge":
-                WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
+            case "edge":                driver = new EdgeDriver();
                 break;
             default:
                 throw new RuntimeException("Browser not supported: " + browser);
@@ -49,3 +48,4 @@ public class DriverFactory {
         }
     }
 }
+
